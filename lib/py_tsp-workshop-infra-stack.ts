@@ -28,6 +28,12 @@ export class PyTspWorkshopInfraStack extends cdk.Stack {
       'allow HTTP traffic from anywhere',
     );
 
+    webserverSG.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(22),
+      'allow ssh login from anywhere',
+    );
+
     // create the EC2 instance
     const ec2Instance = new ec2.Instance(this, 'ec2-instance', {
       vpc,
