@@ -6,10 +6,16 @@ export class PyTspWorkshopInfraStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    const keyPair = new cdk.CfnParameter(this, 'keyPair', {
+      description: 'ec2 keypair name',
+      type: 'String',
+    })
+
     // import default VPC
     const vpc = ec2.Vpc.fromLookup(this, 'my-default-vpc', {
       isDefault: true,
     });
+
 
     // create a security group for the EC2 instance
     const webserverSG = new ec2.SecurityGroup(this, 'webserver-sg', {
@@ -36,6 +42,7 @@ export class PyTspWorkshopInfraStack extends cdk.Stack {
       machineImage: new ec2.AmazonLinuxImage({
         generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
       }),
+      keyName: keyPair.valueAsString
     });
 
     // 👇 load user data script
