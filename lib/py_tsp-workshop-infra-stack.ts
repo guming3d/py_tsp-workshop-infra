@@ -56,6 +56,12 @@ export class PyTspWorkshopInfraStack extends cdk.Stack {
 
     // 👇 add user data to the EC2 instance
     ec2Instance.addUserData(userDataScript);
+
+    new cdk.CfnOutput(this,'ec2 instance id', {value: ec2Instance.instanceId});
+    new cdk.CfnOutput(this,'ec2 instance public ip', {value: ec2Instance.instancePublicIp});
+    new cdk.CfnOutput(this,'ec2 instance public dns name', {value: ec2Instance.instancePublicDnsName});
+    new cdk.CfnOutput(this,'ec2 instance private ip', {value: ec2Instance.instancePrivateIp});
+    new cdk.CfnOutput(this,'web server address', {value: 'http://' + ec2Instance.instancePrivateIp + ':5000'});
   }
 }
  
